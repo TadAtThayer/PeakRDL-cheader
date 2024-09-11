@@ -48,7 +48,7 @@ class Exporter(ExporterSubcommandPlugin):
             action="store_true",
             default=False,
             help=""""
-            If set, the top-level hiearchy is skipped. Instead, definitions for
+            If set, the top-level hierarchy is skipped. Instead, definitions for
             all the direct children are generated.
 
             Note that only block-like definitons are generated.
@@ -105,6 +105,18 @@ class Exporter(ExporterSubcommandPlugin):
         )
 
         arg_group.add_argument(
+            "--nopack",
+            action="store_true",
+            default=False,
+            help="""
+            Normally, structures are defined as packed (using a gcc attribute).  
+            On some versions of the ARM compilers, this causes the compiler to 
+            emit byte accesses to registers.  This can lead to some unexpected 
+            breakage.  Use this to disable this feature.
+            """
+        )
+
+        arg_group.add_argument(
             "--testcase",
             action="store_true",
             default=False,
@@ -138,5 +150,6 @@ class Exporter(ExporterSubcommandPlugin):
             explode_top=options.explode_top,
             instantiate=options.instantiate,
             inst_offset=options.inst_offset,
+            nopack=options.nopack,
             testcase=options.testcase,
         )

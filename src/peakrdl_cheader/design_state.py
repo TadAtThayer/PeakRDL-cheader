@@ -60,5 +60,9 @@ class DesignState:
         self.inst_offset: int
         self.inst_offset = kwargs.pop("inst_offset", 0)
 
+        self.packed_attr = "__attribute__ ((__packed__))"
+        if kwargs.pop("nopack", False):
+            self.packed_attr = ""
+
         self.testcase: bool
         self.testcase = kwargs.pop("testcase", False)

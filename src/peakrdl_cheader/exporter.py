@@ -24,7 +24,7 @@ class CHeaderExporter:
             Struct type names are derived using the SystemRDL component's type
             name and declared lexical scope path.
 
-            If this is not desireable, override this parameter to ``False`` and structs
+            If this is not desirable, override this parameter to ``False`` and structs
             will be generated more naively using their hierarchical paths.
         generate_bitfields: bool
             If set, registers are exported as nested union/structs to provide structured
@@ -49,6 +49,10 @@ class CHeaderExporter:
             block at a defined hardware address, allowing for direct access.
         inst_offset: int
             Apply an additional address offset to instance definitions.
+        nopack: bool
+            Normally, the header will specify packed structures.  This seems to break
+            some ARM compilers which end up generating byte reads and write for registers.
+            Set this to avoid the use of the packed attribute.
         testcase: bool
             Generate a testcase C file
         """

@@ -99,7 +99,7 @@ class HeaderGenerator(RDLListener):
                 fields[0].parent.inst.inst_src_ref
             )
 
-        self.write("struct __attribute__ ((__packed__)) {\n")
+        self.write(f"struct {self.ds.packed_attr} {{\n")
         self.push_indent()
 
         if self.ds.bitfield_order_ltoh:
@@ -236,7 +236,7 @@ class HeaderGenerator(RDLListener):
 
         self.write(f"\n// {self.get_friendly_name(node)}\n")
 
-        self.write("typedef struct __attribute__ ((__packed__)) {\n")
+        self.write(f"typedef struct {self.ds.packed_attr} {{\n")
         self.push_indent()
 
         width = utils.roundup_pow2(node.get_property("memwidth"))
@@ -258,7 +258,7 @@ class HeaderGenerator(RDLListener):
 
         self.write(f"\n// {self.get_friendly_name(node)}\n")
 
-        self.write("typedef struct __attribute__ ((__packed__)) {\n")
+        self.write(f"typedef struct {self.ds.packed_attr} {{\n")
         self.push_indent()
 
         current_offset = 0
