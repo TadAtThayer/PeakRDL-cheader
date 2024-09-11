@@ -58,6 +58,7 @@ class HeaderGenerator(RDLListener):
                             )
                         f.write(f"#define {node.inst_name} ((volatile {type_name} *){addr:#x}UL)\n")
                     else:
+                        f.write(f"#define {node.inst_name.upper()} ((volatile {type_name} *){addr:#x}UL)\n")
                         f.write(f"#define {node.inst_name} (*(volatile {type_name} *){addr:#x}UL)\n")
 
             # Stream footer via jinja
