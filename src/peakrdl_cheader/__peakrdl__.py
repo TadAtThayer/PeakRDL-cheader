@@ -153,6 +153,7 @@ class Exporter(ExporterSubcommandPlugin):
             path=options.output,
             std=std,
             generate_bitfields=generate_bitfields,
+            generate_enums=options.generate_enums,
             bitfield_order_ltoh=bitfield_order_ltoh,
             reuse_typedefs=reuse_typedefs,
             wide_reg_subword_size=subword_size,
