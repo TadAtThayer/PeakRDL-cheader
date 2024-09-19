@@ -27,6 +27,11 @@ class HeaderGenerator(RDLListener):
         with open(path, "w", encoding='utf-8') as f:
             self.f = f
 
+            for node in top_nodes:
+                node.roundup = 0
+                if node.size % self.ds.struct_align != 0:
+                    node.roundup = (self.ds.struct_align - node.size % self.ds.struct_align)
+
             context = {
                 "ds": self.ds,
                 "header_guard_def": re.sub(r"[^\w]", "_", os.path.basename(path)).upper(),
@@ -65,7 +70,7 @@ class HeaderGenerator(RDLListener):
                         f.write(f"#define {node.inst_name.upper()} ((volatile {type_name} *){addr:#x}UL)\n")
                         f.write(f"#define {node.inst_name} (*(volatile {type_name} *){addr:#x}UL)\n")
 
-            # Stream footer via jinja
+
             template = self.ds.jj_env.get_template("footer.h")
             template.stream(context).dump(f)
 

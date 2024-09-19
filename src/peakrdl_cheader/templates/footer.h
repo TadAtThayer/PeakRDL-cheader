@@ -4,7 +4,7 @@
 {%- if node.is_array %}
 static_assert(sizeof({{get_struct_name(ds, node, node)}}) == {{"%#x" % node.array_stride}}, "Packing error");
 {%- else %}
-static_assert(sizeof({{get_struct_name(ds, node, node)}}) == {{"%#x" % node.size}}, "Packing error");
+static_assert(sizeof({{get_struct_name(ds, node, node)}}) == {{"%#x" % (node.size + node.roundup)}}, "Packing error");
 {%- endif %}
 {%- endfor %}
 {%- endif %}
