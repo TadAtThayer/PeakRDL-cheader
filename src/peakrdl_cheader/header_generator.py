@@ -155,10 +155,11 @@ class HeaderGenerator(RDLListener):
         self.write(f"\n// {self.get_friendly_name(node)}\n")
 
         for field in node.fields():
-            field_prefix = prefix + "__" + field.inst_name.upper()
+            field_prefix = prefix + "_" + field.inst_name.upper()
 
             bm = ((1 << field.width) - 1) << field.low
-            self.write(f"#define {field_prefix}_bm {bm:#x}\n")
+            self.write(f"#define {field_prefix}_Msk {bm:#x}\n")
+            self.write(f"#define {field_prefix} {bm:#x}\n")
             self.write(f"#define {field_prefix}_bp {field.low:d}\n")
             self.write(f"#define {field_prefix}_bw {field.width:d}\n")
 
@@ -361,9 +362,9 @@ class HeaderGenerator(RDLListener):
 
     @staticmethod
     def get_enum_prefix(user_enum: Type['UserEnum']) -> str:
-        scope = user_enum.get_scope_path("__")
+        scope = user_enum.get_scope_path("_")
         if scope:
-            return f"{scope}__{user_enum.type_name}"
+            return f"{scope}_{user_enum.type_name}"
         else:
             return user_enum.type_name
 
@@ -371,7 +372,7 @@ class HeaderGenerator(RDLListener):
         prefix = self.get_enum_prefix(user_enum)
         lines = []
         for enum_member in user_enum:
-            lines.append(f"    {prefix}__{enum_member.name} = {enum_member.value}")
+            lines.append(f"    {prefix}_{enum_member.name} = {enum_member.value}")
 
         self.write("typedef enum {\n"
                    + ",\n".join(lines)
